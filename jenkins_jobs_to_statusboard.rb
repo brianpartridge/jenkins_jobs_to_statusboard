@@ -22,12 +22,12 @@ def job_order(client, job)
   end
 end
 
-throw "Pass jenkins_ip, username and password as params" unless ARGV.length >= 3
+throw "Pass jenkins_ip, jenkins_port, username, and password as params" unless ARGV.length >= 4
 
-client = JenkinsApi::Client.new(:server_ip => ARGV[0],
-                                :username => ARGV[1], :password => ARGV[2])
+client = JenkinsApi::Client.new(:server_ip => ARGV[0], :server_port => ARGV[1],
+                                :username => ARGV[2], :password => ARGV[3])
 
-file = File.new(ARGV[3] || "jenkins.html", "w+")
+file = File.new(ARGV[4] || "jenkins.html", "w+")
 file.puts "<table>"
 
 client.job.list_all.sort { |x, y| job_order(client, x) <=> job_order(client, y) }.each do |job|
